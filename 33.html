@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>My Video Sharing Site</h1>
+        <nav>
+            <ul>
+                <li><a href="aaa.html">Home</a></li>
+                <li><a href="33.html">Videos</a></li>
+                <li><a href="2.html">Upload</a></li>
+                <li><a href="4.html">Your Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="video-section">
+            
+            <div id="video-container"></div>
+        </section>
+        <section class="video-list">
+            <div class="container">
+                <h2>Videos</h2>
+                <ul id="video-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Video Sharing Site</p>
+    </footer>
+    <script>
+        function displayUploadedVideos() {
+            // Retrieve uploaded videos information from local storage
+            var uploadedVideos = JSON.parse(localStorage.getItem('uploadedVideos')) || [];
+
+            // Display uploaded videos on the page
+            var videoList = document.getElementById('video-list');
+            
+            uploadedVideos.forEach(function(video) {
+                var videoElement = document.createElement('video');
+                videoElement.src = video.file;
+                videoElement.controls = true;
+                videoElement.width = 320;
+                videoElement.height = 240;
+
+                var titleElement = document.createElement('h3');
+                titleElement.textContent = video.title;
+
+                var descriptionElement = document.createElement('p');
+                descriptionElement.textContent = video.description;
+
+                var listItem = document.createElement('li');
+                listItem.appendChild(titleElement);
+                listItem.appendChild(descriptionElement);
+                listItem.appendChild(videoElement);
+
+                videoList.appendChild(listItem);
+            });
+        }
+
+        // Call the function when the page loads
+        displayUploadedVideos();
+    </script>
+</body>
+</html>

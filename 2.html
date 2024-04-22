@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Video Sharing Site</h1>
+        <nav>
+            <ul>
+                <li><a href="aaa2.html">Home</a></li>
+                <li><a href="33.html">Videos</a></li>
+                <li><a href="2.html">Upload</a></li>
+                <li><a href="4.html">Your Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Upload Video</h2>
+        <form action="/api/videos/upload" method="post" enctype="multipart/form-data" onsubmit="saveVideoInfo(event)">
+            <input type="text" id="title" placeholder="Title" required><br>
+            <input type="text" id="description" placeholder="Description" required><br>
+            <input type="file" id="file" required><br>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <script>
+        function saveVideoInfo(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Get video information
+            var title = document.getElementById('title').value;
+            var description = document.getElementById('description').value;
+            var file = document.getElementById('file').files[0];
+
+            // Retrieve uploaded videos from local storage
+            var uploadedVideos = JSON.parse(localStorage.getItem('uploadedVideos')) || [];
+
+            // Add new video information to the array
+            uploadedVideos.push({ title: title, description: description, file: file.name });
+
+            // Save updated array back to local storage
+            localStorage.setItem('uploadedVideos', JSON.stringify(uploadedVideos));
+
+            alert("Video uploaded successfully!");
+            
+            // Redirect to home page (index.html)
+            window.location.href = 'aaa2.html';
+        }
+    </script>
+</body>
+</html>
