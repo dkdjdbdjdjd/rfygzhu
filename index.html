@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Video Sharing Site</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Video Sharing Site</h1>
+        <nav>
+            <ul>
+                <li><a href="aaa2.html">Home</a></li>
+                <li><a href="33.html">Videos</a></li>
+                <li><a href="2.html">Upload</a></li>
+                <li><a href="4.html">Your Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="video-section">
+            <h2>You Can Make Videos</h2>
+            <div id="video-container"></div>
+        </section>
+        <section class="video-list">
+            <div class="container">
+                <h2>Videos</h2>
+                <ul id="video-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Video Sharing Site</p>
+    </footer>
+
+    <!-- Upload Video Section -->
+    <div class="container">
+        <h2>Upload Video</h2>
+        <form action="/api/videos/upload" method="post" enctype="multipart/form-data" onsubmit="saveVideoInfo(event)">
+            <input type="text" id="title" placeholder="Title" required><br>
+            <input type="text" id="description" placeholder="Description" required><br>
+            <input type="file" id="file" required><br>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <script>
+        function displayUploadedVideos() {
+            // Retrieve uploaded videos information from local storage
+            var uploadedVideos = JSON.parse(localStorage.getItem('uploadedVideos')) || [];
+
+            // Display uploaded videos on the page
+            var videoList = document.getElementById('video-list');
+            
+            uploadedVideos.forEach(function(video) {
+                var videoElement = document.createElement('video');
+                videoElement.src = video.file;
+                videoElement.controls = true;
+                videoElement.width = 320;
+                videoElement.height = 240;
+
+                var titleElement = document.createElement('h3');
+                titleElement.textContent = video.title;
+
+                var descriptionElement = document.createElement('p');
+                descriptionElement.textContent = video.description;
+
+                var listItem = document.createElement('li');
+                listItem.appendChild(titleElement);
+                listItem.appendChild(descriptionElement);
+                listItem.appendChild(videoElement);
+
+                videoList.appendChild(listItem);
+            });
+        }
+
+        function saveVideoInfo(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Get video information
+            var title = document.getElementById('title').value;
+            var description = document.getElementById('description').value;
+            var file = document.getElementById('file').files[0];
+
+            // Retrieve uploaded videos from local storage
+            var uploadedVideos = JSON.parse(localStorage.getItem('uploadedVideos')) || [];
+
+            // Add new video information to the array
+            uploadedVideos.push({ title: title, description: description, file: file.name });
+
+            // Save updated array back to local storage
+            localStorage.setItem('uploadedVideos', JSON.stringify(uploadedVideos));
+
+            alert("Video uploaded successfully!");
+            
+            // Redirect to home page (index.html)
+            window.location.href = 'aaa2.html';
+        }
+
+        // Call the function when the page loads
+        displayUploadedVideos();
+    </script>
+</body>
+</html>
